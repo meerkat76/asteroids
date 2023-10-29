@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://ce175vinimt81"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_fk0hl"]
+[ext_resource type="PackedScene" uid="uid://cicg13ib6brwf" path="res://ship.tscn" id="1_tcx6h"]
+[ext_resource type="PackedScene" uid="uid://b3uql6ykrc45d" path="res://asteroid.tscn" id="2_ramcl"]
+[ext_resource type="PackedScene" uid="uid://dus2exuj5bckl" path="res://ui.tscn" id="3_w00eg"]
+
+[sub_resource type="Gradient" id="Gradient_jbd47"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qghgd"]
+gradient = SubResource("Gradient_jbd47")
+width = 1024
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_fk0hl")
+
+[node name="Background" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(1.125, 649)
+texture = SubResource("GradientTexture1D_qghgd")
+centered = false
+flip_v = true
+
+[node name="Ship" parent="." instance=ExtResource("1_tcx6h")]
+position = Vector2(621, 485)
+
+[node name="UI" parent="." instance=ExtResource("3_w00eg")]
+
+[node name="Asteroids" type="Node" parent="."]
+
+[node name="Asteroid" parent="Asteroids" instance=ExtResource("2_ramcl")]
+position = Vector2(215, 543)
+
+[node name="Asteroid2" parent="Asteroids" instance=ExtResource("2_ramcl")]
+position = Vector2(1075, 69)
+
+[node name="Asteroid3" parent="Asteroids" instance=ExtResource("2_ramcl")]
+position = Vector2(143, 96)

@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://cicg13ib6brwf"]
+
+[ext_resource type="Script" path="res://ship.gd" id="1_eihbm"]
+[ext_resource type="Texture2D" uid="uid://rjsysoemag42" path="res://ship.PNG" id="1_vr313"]
+[ext_resource type="PackedScene" uid="uid://7ujpby8u33wv" path="res://Components/HealthComponent.tscn" id="2_4o5gf"]
+[ext_resource type="PackedScene" uid="uid://bix27i0ghgx3g" path="res://Components/HitBoxComponent.tscn" id="3_2xfcd"]
+[ext_resource type="PackedScene" uid="uid://bp6im18g1nyiw" path="res://Components/VelocityComponent.tscn" id="5_csn2t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4poy2"]
+size = Vector2(125, 71)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvnc2"]
+resource_local_to_scene = true
+size = Vector2(123, 61)
+
+[node name="Ship2" type="CharacterBody2D"]
+script = ExtResource("1_eihbm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0.5)
+shape = SubResource("RectangleShape2D_4poy2")
+disabled = true
+
+[node name="VelocityComponent" parent="." instance=ExtResource("5_csn2t")]
+max_velocity = 200.0
+acceleration = 2.0
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_4o5gf")]
+health = 5
+max_health = 5
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("3_2xfcd")]
+type_name = "ship"
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_pvnc2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_vr313")
+
+[connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
+
+[editable path="HitBoxComponent"]

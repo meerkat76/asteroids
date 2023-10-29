@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://cugwsljgq8iy"]
+
+[ext_resource type="Script" path="res://bullet.gd" id="1_qcq5o"]
+[ext_resource type="PackedScene" uid="uid://cfkttl273vp4y" path="res://Components/DamageComponent.tscn" id="1_wutsb"]
+[ext_resource type="PackedScene" uid="uid://bp6im18g1nyiw" path="res://Components/VelocityComponent.tscn" id="2_qdgk4"]
+[ext_resource type="PackedScene" uid="uid://bix27i0ghgx3g" path="res://Components/HitBoxComponent.tscn" id="3_yrwso"]
+
+[sub_resource type="Gradient" id="Gradient_5t44e"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k0wcg"]
+gradient = SubResource("Gradient_5t44e")
+width = 8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1yfyr"]
+resource_local_to_scene = true
+size = Vector2(18, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1ka5"]
+size = Vector2(17, 4)
+
+[node name="Bullet" type="CharacterBody2D"]
+script = ExtResource("1_qcq5o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.5, 18.75)
+texture = SubResource("GradientTexture1D_k0wcg")
+
+[node name="DamageComponent" parent="." instance=ExtResource("1_wutsb")]
+type_name = "bullet"
+
+[node name="VelocityComponent" parent="." instance=ExtResource("2_qdgk4")]
+max_velocity = 1000.0
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("3_yrwso")]
+type_name = "bullet"
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+shape = SubResource("RectangleShape2D_1yfyr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_v1ka5")
+disabled = true
+
+[connection signal="hitbox_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_hitbox_entered"]
+
+[editable path="HitBoxComponent"]

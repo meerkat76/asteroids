@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://b3uql6ykrc45d"]
+
+[ext_resource type="Texture2D" uid="uid://86adtfx7ui4y" path="res://asteroid.png" id="1_25wva"]
+[ext_resource type="Script" path="res://asteroid.gd" id="1_qoeyr"]
+[ext_resource type="PackedScene" uid="uid://bix27i0ghgx3g" path="res://Components/HitBoxComponent.tscn" id="2_n3qqg"]
+[ext_resource type="PackedScene" uid="uid://7ujpby8u33wv" path="res://Components/HealthComponent.tscn" id="3_xn605"]
+[ext_resource type="PackedScene" uid="uid://cfkttl273vp4y" path="res://Components/DamageComponent.tscn" id="3_xuyrb"]
+[ext_resource type="PackedScene" uid="uid://bp6im18g1nyiw" path="res://Components/VelocityComponent.tscn" id="6_sin3c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vl2tg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ipxvx"]
+resource_local_to_scene = true
+size = Vector2(64, 57)
+
+[node name="Asteroid" type="CharacterBody2D"]
+script = ExtResource("1_qoeyr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vl2tg")
+disabled = true
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("2_n3qqg")]
+type_name = "asteroid"
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+position = Vector2(1, 2.5)
+shape = SubResource("RectangleShape2D_ipxvx")
+
+[node name="VelocityComponent" parent="." instance=ExtResource("6_sin3c")]
+max_velocity = 5000.0
+acceleration = 5.0
+
+[node name="DamageComponent" parent="." instance=ExtResource("3_xuyrb")]
+type_name = "asteroid"
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_xn605")]
+health = 5
+max_health = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_25wva")
+
+[connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]
+
+[editable path="HitBoxComponent"]

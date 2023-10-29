@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bix27i0ghgx3g"]
+
+[ext_resource type="Script" path="res://Components/HitBoxComponent.gd" id="1_5hjcx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sni6e"]
+resource_local_to_scene = true
+
+[node name="HitBoxComponent" type="Area2D" node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("1_5hjcx")
+collision_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sni6e")
+
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]
+[connection signal="area_shape_exited" from="." to="." method="_on_area_shape_exited"]
